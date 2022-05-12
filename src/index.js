@@ -21,7 +21,7 @@ class Session {
     static start(options = {}) {
         Object.assign(Session.options, options);
         if ('' === Session.options.key) {
-            throw new Error('lost config of "keyList"');
+            throw new Error('lost config of "key"');
         }
         return (req, res, next) => {
             if (!req.session) {
