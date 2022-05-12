@@ -40,14 +40,14 @@ class Session {
      * @inheritdoc
      */
     getAttribute(name) {
-        this.loadCookie();
+        this.loadSessionCookie();
         return Session.attributes.get(name);
     }
     /**
      * @inheritdoc
      */
     setAttribute(name, value) {
-        this.loadCookie();
+        this.loadSessionCookie();
         Session.attributes.set(name, value);
         this.saveCookie();
     }
@@ -55,8 +55,16 @@ class Session {
      * @inheritdoc
      */
     deleteAttribute(name) {
-        this.loadCookie();
+        this.loadSessionCookie();
         Session.attributes.delete(name);
+        this.saveCookie();
+    }
+    /**
+     * @inheritdoc
+     */
+    clear() {
+        this.loadSessionCookie();
+        Session.attributes.clear();
         this.saveCookie();
     }
     toJson() {
@@ -68,7 +76,7 @@ class Session {
         });
         return obj;
     }
-    loadCookie() {
+    loadSessionCookie() {
         if (Session.pure) {
             return;
         }

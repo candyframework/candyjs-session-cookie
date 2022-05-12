@@ -77,7 +77,7 @@ export default class Session implements ISession {
      * @inheritdoc
      */
     public getAttribute(name: string): any {
-        this.loadCookie();
+        this.loadSessionCookie();
 
         return Session.attributes.get(name);
     }
@@ -86,7 +86,7 @@ export default class Session implements ISession {
      * @inheritdoc
      */
     public setAttribute(name: string, value: any): void {
-        this.loadCookie();
+        this.loadSessionCookie();
 
         Session.attributes.set(name, value);
         this.saveCookie();
@@ -96,9 +96,19 @@ export default class Session implements ISession {
      * @inheritdoc
      */
     public deleteAttribute(name: string) {
-        this.loadCookie();
+        this.loadSessionCookie();
 
         Session.attributes.delete(name);
+        this.saveCookie();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public clear(): void {
+        this.loadSessionCookie();
+
+        Session.attributes.clear();
         this.saveCookie();
     }
 
@@ -114,7 +124,7 @@ export default class Session implements ISession {
         return obj;
     }
 
-    private loadCookie() {
+    private loadSessionCookie() {
         if(Session.pure) {
             return;
         }
