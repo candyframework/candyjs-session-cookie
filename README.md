@@ -65,7 +65,7 @@ class IndexController extends Controller {
 
 ```
 session#getAttribute(name: string): any;
-session#setAttribute(name, value): void;
-session#deleteAttribute(name): void;
+session#setAttribute(name: string, value: any): void;
+session#deleteAttribute(name: string): void;
 session#clear(): void;
 ```
