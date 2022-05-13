@@ -158,7 +158,7 @@ export default class Session implements ISession {
     }
 
     private saveCookie(): void {
-        let userCookie = this.response.getHeader('Set-Cookie');
+        let userCookie = this.getUserCookie();
         let json = this.toJson();
         let base64 = Buffer.from(JSON.stringify(json)).toString('base64');
         let sign = Session.sha1(Session.options.key + base64);
@@ -182,12 +182,39 @@ export default class Session implements ISession {
         let header = [valueCookie.toString(), signCookie.toString()];
 
         // array or string
-        if(userCookie) {
+        if(null !== userCookie) {
             header = header.concat(userCookie);
         }
 
         // overwrite
         this.response.setHeader('Set-Cookie', header);
+    }
+
+    private getUserCookie(): string[] {
+        let userCookie = this.response.getHeader('Set-Cookie');
+
+        if(!userCookie) {
+            return null;
+        }
+
+        // string
+        if('string' === typeof userCookie) {
+            if(userCookie.indexOf(Session.options.name) >= 0) {
+                return null;
+            }
+
+            return [ userCookie ];
+        }
+
+        // array
+        let ret = [];
+        for(let i=0; i<userCookie.length; i++) {
+            if(-1 === userCookie[i].indexOf(Session.options.name)) {
+                ret.push(userCookie[i]);
+            }
+        }
+
+        return ret;
     }
 
     private valid(cookie: string, sign: string, json: any): boolean {
