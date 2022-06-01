@@ -1,6 +1,6 @@
 {
   "name": "@candyjs/session-cookie",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,7 @@
   },
   "author": "",
   "license": "MIT",
+  "homepage": "https://github.com/candyframework/candyjs-session-cookie",
   "dependencies": {},
   "devDependencies": {
     "@types/node": "^17.0.32",
